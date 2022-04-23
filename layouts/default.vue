@@ -116,7 +116,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Aplikasi ',
+      title: 'Aplikasi Goib',
     }
   },
   methods: {
@@ -137,7 +137,7 @@ export default {
     },
   },
   mounted() {
-    // localStorage.setItem('welcomeScreen', true)
+    localStorage.setItem('welcomeScreen', true)
     this.isWelcomeScreen()
   },
 }

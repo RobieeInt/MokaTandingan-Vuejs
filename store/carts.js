@@ -83,7 +83,7 @@ export const mutations = {
 
 export const actions = {
   addToCart({ commit, state }, id) {
-    const found = state.items.find(item => item._id === id)
+    const found = state.items.find(item => item.id === id)
     if (found) {
       commit('incrementItem', id)
     } else {

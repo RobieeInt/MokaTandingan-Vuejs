@@ -1,7 +1,7 @@
 <template>
-  <v-row>
+  <div>
     <v-row align="center">
-      <v-col cols="10">
+      <v-col cols="7">
         <v-autocomplete
           label="Produk"
           placeholder="Ketik untuk Mencari"
@@ -42,6 +42,7 @@
     <v-row>
       <v-col v-for="(product, i) in filteredProducts" :key="i.id" cols="2">
         <v-card
+          class="product-card"
           @click="addToCart(product._id)"
           :title="product.title"
           :ripple="true"
@@ -63,7 +64,7 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-row>
+  </div>
 </template>
 
 <script>
@@ -151,7 +152,7 @@ export default {
 }
 
 .product-card {
-  height: 250px;
+  height: 230px;
 }
 
 .product-pic:hover {

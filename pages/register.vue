@@ -18,6 +18,7 @@
               type="email"
               :rules="rules.email"
               v-model="form.email"
+              @keyup="checkEmail"
             />
             <v-text-field
               name="password"
@@ -49,6 +50,7 @@
 export default {
   data() {
     return {
+      emailExist: false,
       form: {
         fullname: '',
         email: '',
@@ -60,6 +62,7 @@ export default {
         email: [
           (v) => !!v || 'Email Harus Diisi',
           (v) => /.+@.+/.test(v) || 'Email Ga Valid',
+          (v) => !!this.emailExist || 'Email Sudah Terdaftar',
         ],
         password: [
           (v) => !!v || 'Password Harus Diisi',
@@ -72,14 +75,24 @@ export default {
     }
   },
   methods: {
+    checkEmail() {
+      this.$axios
+        .$post('http://localhost:3001/auth/check-email', this.form)
+        .then((response) => {
+          console.log(response)
+          this.emailExist = false
+        })
+        .catch((error) => {
+          console.log(error)
+          this.emailExist = true
+        })
+    },
     onsubmit() {
       console.log(this.form)
       this.$axios
         .$post('http://localhost:3001/auth/register', this.form)
         .then((response) => {
-          {
-            console.log(response)
-          }
+          // this.$router.push('/login')
         })
     },
   },
