@@ -38,7 +38,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="success" @click="onsubmit" dark>Register</v-btn>
+          <v-btn color="success" :disabled="isDisable" @click="onsubmit" dark>
+            <span v-if="!isDisable">Register</span>
+            <v-progress-circular
+              v-else
+              color="success"
+              indeterminate
+            ></v-progress-circular>
+          </v-btn>
         </v-card-actions>
       </v-card>
       <p>Sudah punya Akun? <v-btn to="/login" plain>Login</v-btn></p>
@@ -51,6 +58,7 @@ export default {
   data() {
     return {
       emailExist: false,
+      isDisable: false,
       form: {
         fullname: '',
         email: '',
@@ -79,20 +87,25 @@ export default {
       this.$axios
         .$post('http://localhost:3001/auth/check-email', this.form)
         .then((response) => {
-          console.log(response)
           this.emailExist = false
+          console.log(response)
         })
         .catch((error) => {
-          console.log(error)
           this.emailExist = true
+          console.log(error)
         })
     },
     onsubmit() {
       console.log(this.form)
+      this.isDisable = true
       this.$axios
         .$post('http://localhost:3001/auth/register', this.form)
         .then((response) => {
-          // this.$router.push('/login')
+          this.$router.push('/login')
+          this.isDisable = false
+        })
+        .catch((error) => {
+          this.isDisable = false
         })
     },
   },

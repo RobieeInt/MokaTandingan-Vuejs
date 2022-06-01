@@ -21,7 +21,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="success" @click="onsubmit" dark>Login</v-btn>
+          <v-btn color="success" :disabled="isDisable" @click="onsubmit" dark>
+            <span v-if="!isDisable">Login</span>
+            <v-progress-circular
+              v-else
+              color="success"
+              indeterminate
+            ></v-progress-circular>
+          </v-btn>
         </v-card-actions>
       </v-card>
       <p>
@@ -36,6 +43,7 @@
 export default {
   data() {
     return {
+      isDisable: false,
       form: {
         email: '',
         password: '',
@@ -45,11 +53,16 @@ export default {
   methods: {
     onsubmit() {
       console.log(this.form)
+      this.isDisable = true
       this.$axios
         .$post('http://localhost:3001/auth/login', this.form)
         .then((response) => {
           console.log(response)
           this.$router.push('/product')
+          this.isDisable = true
+        })
+        .catch((error) => {
+          this.isDisable = false
         })
     },
   },
